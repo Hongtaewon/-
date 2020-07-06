@@ -1,0 +1,36 @@
+import java.io.*;
+import java.util.*;
+
+class Main {
+	
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int t = Integer.parseInt(br.readLine());
+		
+		int[] arr = new int[t];
+		int max = 0;
+		for(int i = 0;i<t;i++)
+		{
+			int temp = Integer.parseInt(br.readLine());
+			if(temp > max) max = temp;
+			arr[i] = temp;
+		}
+		
+		long[] dp = new long[max+1];
+		
+		dp[1] = 1;
+		dp[2] = 2;
+		dp[3] = 4;
+		
+		for (int i = 4; i <= max; i++)
+		{
+			dp[i] = (dp[i - 1] + dp[i - 2] + dp[i - 3]) % 1000000009;
+		}
+		
+		for(int i = 0;i<t;i++)
+		{
+			System.out.println(dp[arr[i]]);
+		}
+		
+	}
+}

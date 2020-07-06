@@ -1,0 +1,48 @@
+import java.io.*;
+import java.util.*;
+
+class Main {
+	
+	
+	static int n,k;
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		n = Integer.parseInt(st.nextToken());
+		k = Integer.parseInt(st.nextToken());
+		
+		
+		
+		plus(0,"");
+		
+		if(cnt < k)
+			System.out.println(-1);
+		else
+			System.out.println(save.get(k-1));
+	}
+
+	static int cnt = 0;
+	static Vector<String> save = new Vector<>();
+	public static void plus(int sum, String val) {
+		
+		if(sum == n) 
+		{
+			cnt++;
+			save.add(val);
+		}
+		else if(sum > n) 
+			return;
+		
+		if(cnt >= k)
+		{
+			return;
+		}
+		
+		if(!val.equals("")) val = val+"+";
+		
+		for(int i = 1;i<=3;i++)
+		{
+			plus(sum+i,val + String.valueOf(i));
+		}
+	}
+}

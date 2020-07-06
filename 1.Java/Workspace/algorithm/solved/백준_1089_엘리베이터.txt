@@ -1,0 +1,163 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	
+	static String[][][] dnum = {
+			{
+			{"###"},
+			{"#.#"},
+			{"#.#"},
+			{"#.#"},
+			{"###"}},
+			{
+			{"..#"},
+			{"..#"},
+			{"..#"},
+			{"..#"},
+			{"..#"}},
+			{
+			{"###"},
+			{"..#"},
+			{"###"},
+			{"#.."},
+			{"###"}},
+			{
+			{"###"},
+			{"..#"},
+			{"###"},
+			{"..#"},
+			{"###"}},
+			{
+			{"#.#"},
+			{"#.#"},
+			{"###"},
+			{"..#"},
+			{"..#"}},
+			{
+			{"###"},
+			{"#.."},
+			{"###"},
+			{"..#"},
+			{"###"}},
+			{
+			{"###"},
+			{"#.."},
+			{"###"},
+			{"#.#"},
+			{"###"}},
+			{
+			{"###"},
+			{"..#"},
+			{"..#"},
+			{"..#"},
+			{"..#"}},
+			{
+			{"###"},
+			{"#.#"},
+			{"###"},
+			{"#.#"},
+			{"###"}},
+			{
+			{"###"},
+			{"#.#"},
+			{"###"},
+			{"..#"},
+			{"###"}},
+	};
+	
+	
+	public static void main(String[] args) throws Exception {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		//BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		int a = Integer.parseInt(st.nextToken());
+		String[][][] ch = new String[a][5][1];
+		
+		
+		for(int j = 0;j<5;j++)
+		{
+			st = new StringTokenizer(br.readLine());
+			String temp = st.nextToken();
+			int n = 0;
+			for(int i= 0 ;i<a;i++)
+			{
+				ch[i][j][0] = temp.substring(n, n+3);
+				n = n+4;
+			}
+		}
+		int[][] arr = new int[a][];
+		int time = 1;
+		for(int i = 0; i<a;i++)
+		{
+			arr[i] = check(ch[i]);
+			time *= arr[i].length;
+		}
+		
+		
+		double sum = 0;
+		
+		for(int i = 0; i<a;i++)
+		{
+			if(arr[i].length == 0)
+				continue;
+			int temp = time / arr[i].length;
+			for(int j = 0;j<arr[i].length;j++)
+			{
+				sum += temp * arr[i][j] * Math.pow(10, arr.length-i-1);
+			}
+		}
+		
+		if(sum == 0)
+			System.out.println(-1);
+		else
+			System.out.printf("%.5f",sum/time);
+	}
+	
+	static Set<Integer> E = new HashSet<>();
+
+	public static int[] check(String[][] ch) {
+		
+		E = new HashSet<>();
+		findnum(ch);
+		
+		int[] arr = new int[E.size()];
+		int i = 0;
+			Iterator<Integer> iter = E.iterator();
+			while(iter.hasNext())
+				arr[i++] = iter.next();
+		
+		return arr;
+	}
+
+
+	public static void findnum(String[][] ch) {
+		
+		for(int i = 0;i<=9;i++)
+		{
+			boolean flag = true;
+			for(int j = 0;j<5;j++)
+			{
+				for(int k = 0;k<3;k++)
+				{
+					if(dnum[i][j][0].charAt(k) == '.')
+					{
+						if(ch[j][0].charAt(k) == '#')
+						{
+							flag = false;
+							break;
+						}
+					}				
+				}
+				if(flag == false)
+					break;
+			}
+			if(flag == true)
+				E.add(i);
+		}
+		return;
+	}
+}

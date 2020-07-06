@@ -1,0 +1,68 @@
+import java.io.*;
+import java.util.*;
+
+// 1차 방정식 풀이가 필요.
+
+class Main {
+	
+	static int n;
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		n = Integer.parseInt(st.nextToken());
+		
+		int[] arr = new int[n];
+		st = new StringTokenizer(br.readLine());
+		for(int i = 0; i< n;i++)
+		{
+			arr[i] = Integer.parseInt(st.nextToken());
+		}
+		
+		if(n == 1) 
+			System.out.println("A");
+		else if(n == 2) 
+		{
+			if(arr[0] == arr[1])
+				System.out.println(arr[0]);
+			else
+				System.out.println("A");
+		}
+		else
+		{
+			if(arr[0] == arr[1])
+			{
+				int i = 1;
+				while(i<n)
+				{
+					if(arr[i] != arr[i-1])
+					{
+						System.out.println("B");
+						return;
+					}
+					i++;
+				}
+				System.out.println(arr[0]);
+				return;	
+			}
+			int a = (arr[2] - arr[1]) / (arr[1] - arr[0]);
+			int b = arr[1] - arr[0] * a;
+			
+			/* arr[i-1] * a + b = arr[i]
+			 * arr[i] * a + b = arr[i+1]
+			 *  a = arr[i+1] - arr[i] / arr[i] - arr[i-1];
+			 *  b = arr[i] - arr[i-1] * a;
+			 * */
+			for(int i = 1; i< n;i++)
+			{
+				int temp = arr[i-1] * a + b;
+				if(arr[i] != temp)
+				{
+					System.out.println("B");
+					return;
+				}
+			}
+			
+			System.out.println(arr[n-1] * a + b);
+		}
+	}
+}

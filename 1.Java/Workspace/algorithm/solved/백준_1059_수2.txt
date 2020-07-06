@@ -1,0 +1,40 @@
+import java.io.*;
+import java.util.*;
+
+class Main {
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = null;
+		
+		int l = Integer.parseInt(br.readLine());
+		st = new StringTokenizer(br.readLine());
+		
+		int[] arr = new int[l];
+		
+		for(int i =0;i<l;i++)
+			arr[i] = Integer.parseInt(st.nextToken());
+		int n = Integer.parseInt(br.readLine());
+		
+		Arrays.sort(arr);
+		
+		int min = 9999;
+		int max = 0;
+		for(int i = 0;i<l;i++)
+		{
+			if(arr[i] <= n) min = arr[i];
+			if(arr[i] > max && arr[i] >= n)
+			{
+				max = arr[i];
+				break;
+			}
+		}
+		if(min == 9999) min = 0;
+		
+		int result = (n-min) * (max-n) -1;
+		
+		if(result == -1) result = 0;
+		
+		
+		System.out.println(result);
+	}
+}

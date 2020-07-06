@@ -1,0 +1,74 @@
+import java.io.*;
+import java.util.*;
+
+// 재귀로 풀어서 시간을 단축할 것
+
+class Main {
+	
+	static int m;
+	static String n,arr="";
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		n = st.nextToken();
+		st = new StringTokenizer(br.readLine());
+		m = Integer.parseInt(st.nextToken());
+		
+		if(m>0)
+		{
+			st = new StringTokenizer(br.readLine());
+			for(int i = 0;i<m;i++)
+					arr += st.nextToken();
+		}
+		
+		int a = 1;
+		for(int i = 0; i< n.length()+1;i++)
+			a*=10;
+
+		int nv = Integer.parseInt(n);
+		int mm = find(a,n);
+		if(mm == 9999999)
+		{
+			System.out.println(Math.abs(nv-100));
+			return;
+		}
+		
+		int max = num+mm;
+		
+		max = max > Math.abs(nv-100) ? Math.abs(nv-100) : max;
+		
+		System.out.println(max);
+	}
+
+	static int num=0;
+	public static int find(int length, String n) {
+	
+		int nv = Integer.parseInt(n);
+		int min = 9999999;
+		for(int i = 0; i<=length-1;i++)
+		{
+			boolean flag = true;
+			String itemp = String.valueOf(i);
+			for(int j = 0;j<arr.length();j++)
+			{
+				String atemp = String.valueOf(arr.charAt(j));
+				if(itemp.contains(atemp))
+				{
+					flag = false;
+					break;
+				}
+			}
+			if(flag == false)
+				continue;
+			
+			if(Math.abs(nv-i) < min)
+			{
+				min =  Math.abs(nv-i);	
+				num = itemp.length();
+			}
+		}
+		
+		return min;
+	}
+	
+}

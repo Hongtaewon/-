@@ -1,0 +1,90 @@
+import java.util.Scanner;
+
+public class Main {
+
+	static int[][] d = {
+			{-1,0},
+			{0,1},
+			{1,0},
+			{0,-1}
+	};
+	
+	static int[][] map;
+	static int cnt = 0;
+	static int n,m;
+public static void main(String[] args) throws Exception {
+		
+		Scanner sc = new Scanner(System.in);
+		int r,c,d;
+		n=sc.nextInt();
+		m=sc.nextInt();
+		r=sc.nextInt();
+		c=sc.nextInt();
+		d=sc.nextInt();
+		
+		map = new int[n][m];
+		
+		for(int i = 0;i<n;i++)
+		{
+			for(int j = 0;j<m;j++)
+			{
+				map[i][j] = sc.nextInt();
+			}
+		}
+		
+		cnt++;
+		map[r][c] = 2;
+		
+		check(r,c,d);
+		System.out.println(cnt);
+		
+	}
+
+	public static void check(int r, int c, int rd) {
+		// TODO Auto-generated method stub
+
+		int dir = (rd+3) % 4;
+		int tx = r + d[dir][0];
+		int ty = c + d[dir][1];
+		
+		//조건 a
+		if(map[tx][ty] == 0)
+		{
+			cnt++;
+			map[tx][ty] = 2;
+			check(tx,ty,dir);
+		}
+		else
+		{
+			int temp = 0;
+			for(int i = 0;i<4;i++)
+			{
+				tx = r + d[i][0];
+				ty = c + d[i][1];
+				
+				if(map[tx][ty] == 1 || map[tx][ty] == 2)
+					temp++;
+			}
+			
+			if(temp == 4)
+			{
+				dir = (rd+2) % 4;
+				tx = r + d[dir][0];
+				ty = c + d[dir][1];
+				//조건 c
+				if(map[tx][ty] != 1)
+					check(tx,ty,rd);
+				//조건 d
+				else if(map[tx][ty] == 1)
+					return;
+			}
+			else
+			{
+				//조건 b
+				check(r,c,dir);
+			}
+		}
+		
+		
+	}
+}

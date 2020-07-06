@@ -1,0 +1,140 @@
+import java.util.Scanner;
+
+public class Main {
+	
+	static int[][] d = {
+			{-1,0},
+			{0,1},
+			{1,0},
+			{0,-1}
+	};
+	
+	static int[][] map;
+	static int m,n;
+	
+	public static void main(String[] args) throws Exception {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		n=sc.nextInt();
+		m=sc.nextInt();
+		
+		map = new int[n][m];
+		
+		for(int i = 0;i<n;i++)
+			for(int j=0;j<m;j++)
+				map[i][j] = sc.nextInt();
+		
+		
+		int result = time(0);
+		
+		System.out.println(result);
+	}
+	
+	public static int time(int cnt)
+	{
+		
+		while(true)
+		{
+			int sum = 0;
+			int[][] tmap = new int[n][m];
+			
+			for(int i = 0;i<n;i++)
+			{
+				for(int j=0;j<m;j++) 
+				{
+					sum += map[i][j];
+					if(map[i][j] != 0)
+					{
+						sum += map[i][j];
+						tmap[i][j] = check(i,j);
+					}
+				}
+			}
+			
+			if(sum == 0) return 0;
+			
+			for(int i = 0;i<n;i++)
+			{
+				for(int j=0;j<m;j++)
+				{
+					map[i][j] = map[i][j] - tmap[i][j] < 0 ? 0 : map[i][j] - tmap[i][j];
+				}
+			}
+			
+			
+			if(find())
+			{
+				cnt++;
+				break;
+			}
+			cnt++;
+
+		}
+		return cnt;
+		
+	}
+	
+	public static int check(int x,int y)
+	{
+		int tx,ty;
+		int cnt = 0;
+		for(int k=0;k<4;k++)
+		{
+			tx = x + d[k][0];
+			ty = y + d[k][1];
+			
+			if(tx > n || ty > m || tx < 0 || ty < 0) continue;
+			
+			if(map[tx][ty] == 0)
+				cnt++;
+				
+		}
+		
+		return cnt;
+	}
+	
+	public static boolean find()
+	{
+		int[][] tmap = new int[n][m];
+		
+		for(int i = 0;i<n;i++)
+			for(int j=0;j<m;j++)
+				tmap[i][j] = map[i][j];
+		
+		int cnt = 0;
+		for(int i = 0;i<n;i++)
+		{
+			for(int j=0;j<m;j++) 
+			{
+				if(tmap[i][j] != 0)
+				{
+					cnt++;
+					search(i,j,tmap);
+				}
+			}
+		}
+		
+		if(cnt > 1)	return true;
+		
+		return false;
+	}
+	
+	public static void search(int x,int y,int[][] tmap)
+	{
+		int tx,ty;
+		for(int i = 0;i<4;i++)
+		{
+			tx = x + d[i][0];
+			ty = y + d[i][1];
+			if(tx > n || ty > m || tx < 0 || ty < 0) continue;
+			
+			if(tmap[tx][ty] != 0)
+			{
+				tmap[tx][ty] = 0;
+				search(tx,ty,tmap);
+			}
+		}
+	}
+	
+}

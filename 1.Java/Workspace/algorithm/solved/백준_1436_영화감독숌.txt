@@ -1,0 +1,25 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+	public static void main(String[] args) throws Exception {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		//BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		int n = Integer.parseInt(st.nextToken());
+		int[] arr = new int[1000000];
+		int cnt = 0;
+		for(int i = 0;i<Integer.MAX_VALUE;i++)
+		{
+			if(String.valueOf(i).contains("666"))
+				arr[cnt++] = i;
+			
+			if(cnt == n)
+				break;
+		}
+		
+		System.out.println(arr[n-1]);
+	}
+}

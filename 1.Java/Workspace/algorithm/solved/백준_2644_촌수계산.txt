@@ -1,0 +1,79 @@
+import java.util.Scanner;
+import java.util.Vector;
+import java.io.*;
+
+public class Main {
+
+	static class num{
+		int n;
+		Vector<Integer> rel = new Vector<Integer>();
+		int cnt=-1;
+		public num(int a,int b)
+		{
+			n = a;
+			rel.add(b);
+		}
+		public num(int a,Vector<Integer> v,int b)
+		{
+			n = a;
+			rel = v;
+			rel.add(b);
+		}
+	}
+	
+	static num[] rel;
+	public static void main(String[] args) throws Exception {
+		
+		Scanner sc = new Scanner(System.in);
+		int n,s,e,m;
+		n=sc.nextInt();
+		s=sc.nextInt();
+		e=sc.nextInt();
+		m=sc.nextInt();
+		
+		int x,y;
+		rel = new num[n+1];
+		for(int i=0;i<m;i++)
+		{
+			x=sc.nextInt();
+			y=sc.nextInt();
+			if(rel[x] == null)
+			{
+				rel[x] = new num(x,y);
+				rel[y] = new num(y,x);				
+			}
+			else
+			{
+				rel[x] = new num(x,rel[x].rel,y);
+				if(rel[y] == null)
+				{
+					rel[y] = new num(y,x);	
+				}
+				else
+				{
+					rel[y] = new num(y,rel[y].rel,x);
+				}
+			}
+		}
+		
+		rel[s].cnt = 0;
+		check(s,e,1);
+		
+		System.out.println(rel[e].cnt);
+		
+	}
+	
+	public static void check(int s,int e,int cnt)
+	{
+		for(int i = 0;i< rel[s].rel.size();i++)
+		{
+			int temp = rel[s].rel.get(i);
+
+			if(rel[temp].cnt > cnt || rel[temp].cnt == -1)
+			{
+				rel[temp].cnt = cnt;
+				check(temp,e,cnt+1);
+			}
+		}
+	}
+}

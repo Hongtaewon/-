@@ -1,0 +1,59 @@
+# 배열 Array
+
+#배열
+	같은 타입의 여러 변수를 하나의 묶음으로 다루는 것
+	
+	@선언 방법
+		타입[] 변수이름; -> int[] score;
+		타입 변수이름[]; -> int score[];
+	@배열의 생성
+		배열을 선언하고 저장할 수 있는 공간을 생성해줘야 한다.
+		타입[] 변수이름;
+		변수이름 = new 타입[길이];
+		ex1) int value;
+			value = new int[5];
+		ex2) int value = new int[5];
+		배열을 생성하였을 경우, 각 배열의 값들은 디폴트 값으로 초기화 된다. (int의 경우 0,char의 경우 ' ')
+	@간단히 초기화 하는 방법
+		int[] value = new int[]{50,60,70,80,90}; -> new int[]에서 []안에 값을 넣으면 안된다.
+		int[] value = {50,60,70,80,90};
+	@배열의 출력
+		char[] chArr = {'a','b','c'};
+		int[] Arr = {1,2,3};
+		System.out.println(chArr); -> abc
+		System.out.println(Arr); -> Arr의 주소값이 나온다.
+		※char배열만 각 요소들이 출력된다.
+	@배열의 복사
+		System.arraycopy()를 이용하면 편하다.
+		System.arraycopy(num,0,newNum,0,num.length);
+		-> num의 첫 번째 요소부터, num.length만큼 newNum의 첫 번째 요소에 복사한다.
+
+#스트링 배열
+	스트링 배열을 생성할 경우, 각 배열의 기본 값은 null이다.
+	String클래스는 char배열에 기능(메서드)를 추가한 것이다.
+	String클래스와 char배열은 한 가지 중요한 차이가 있는데, String객체(문자열)은 읽을 수만 있고, 내용을 변경 할 수 없다.
+	ex)
+		String str = "Java";
+		str = str + "8";
+		System.out.println(str) -> Java8
+		위의 코드는 문자열 str이 변경된 것으로 보이지만, 문자열은 변경 불가이므로, 새로운 내용의 문자열이 생성된다.
+	String클래스와 char배열의 변환
+	ex)
+		char[] chArr = {'A','B','C'};
+		String str = new String(chArr); char배열 -> String
+		char[] tmp = str.toCharArray(); String -> char배열
+		
+#다차원 배열
+	@다차원 배열의 선언
+		타입[][] 변수이름;
+		타입 변수이름[][];
+		타입[] 변수이름[];
+		-> 2차원 배열의 선언
+	@가변 배열
+		int[][] num = new int[5][];
+		num[0][2];
+		num[1][3];
+		num[2][5];
+		num[3][1];
+		num[4][7];
+		위와 같이 배열의 길이를 생성시 정하지 않고 따로따로 정할 수 있다.

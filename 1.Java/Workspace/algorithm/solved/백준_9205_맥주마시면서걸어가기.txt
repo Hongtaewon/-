@@ -1,0 +1,106 @@
+import java.io.*;
+import java.util.*;
+
+// Queue를 이용해서 경로를 탐색
+
+class Main {
+	
+	static class axis {
+		int x;
+		int y;
+		
+		public axis(int x,int y)
+		{
+			this.x = x;
+			this.y = y;
+		}
+	}
+	
+	
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int t = Integer.parseInt(st.nextToken());
+		
+		while(t > 0)
+		{
+			st = new StringTokenizer(br.readLine());
+			int n = Integer.parseInt(st.nextToken());
+			st = new StringTokenizer(br.readLine());
+			int tempx,tempy;
+			tempx = Integer.parseInt(st.nextToken());
+			tempy = Integer.parseInt(st.nextToken());
+			axis home = new axis(tempx,tempy);
+			axis[] combini = new axis[n];
+			for(int i = 0;i<n;i++)
+			{
+				st = new StringTokenizer(br.readLine());
+				tempx = Integer.parseInt(st.nextToken());
+				tempy = Integer.parseInt(st.nextToken());
+				combini[i] = new axis(tempx, tempy);
+			}
+			st = new StringTokenizer(br.readLine());
+			tempx = Integer.parseInt(st.nextToken());
+			tempy = Integer.parseInt(st.nextToken());
+			axis rock = new axis(tempx, tempy);
+			
+			if(dist(home, rock))
+			{
+				System.out.println("happy");
+				t--;
+				continue;
+			}
+			
+
+			Queue<axis> arr = new LinkedList<>();
+			boolean[] check = new boolean[n];
+			
+			for(int i = 0 ;i< n;i++)
+			{
+				if(dist(home,combini[i]))
+				{
+					arr.add(combini[i]);
+					check[i] = true;
+				}
+			}
+			boolean flag = true;
+			while(!arr.isEmpty())
+			{
+				axis temp = arr.poll();
+				if(dist(temp, rock))
+				{
+					System.out.println("happy");
+					flag = false;
+					break;
+				}
+				for(int i = 0;i<n;i++)
+				{
+					if(check[i] == true) continue;
+					if(dist(temp, combini[i]))
+					{
+						arr.add(combini[i]);
+						check[i] = true;
+					}
+				}
+			}
+			
+			if(flag == true)
+			{
+				System.out.println("sad");
+			}
+			t--;
+			
+		}
+		
+	}
+	
+	public static boolean dist(axis a,axis b)
+	{
+		int temp = Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+		
+		if(temp <= 1000)
+			return true;
+		
+		return false;
+	}
+}

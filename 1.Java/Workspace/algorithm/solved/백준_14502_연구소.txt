@@ -1,0 +1,139 @@
+import java.io.*;
+import java.util.*;
+
+
+//완탐으로 풀어서 시간이 많이 나옴.
+//
+
+class Main {
+	
+	static int n,m;
+	static int[][] map;
+	
+	static int[][] d = {
+			{1,0},
+			{0,1},
+			{-1,0},
+			{0,-1}
+	};
+	static class axis {
+		int x;
+		int y;
+		
+		public axis(int x,int y)
+		{
+			this.x = x;
+			this.y = y;
+		}
+	}
+	static axis[] zero = new axis[100];
+	static Queue<axis> two = new LinkedList<>();
+	static int cnt =0;
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		
+		map = new int[n][m];
+		for(int i=0 ;i<n;i++)
+		{
+			st = new StringTokenizer(br.readLine());
+			for(int j =0;j<m;j++)
+			{
+				int temp = Integer.parseInt(st.nextToken());
+				if(temp == 0)
+					zero[cnt++] = new axis(i,j);
+				if(temp == 2)
+					two.add(new axis(i,j));
+				map[i][j] = temp;	
+			}
+		}
+		
+		check();
+		
+		System.out.println(max);
+	}
+	
+	public static void check()
+	{
+		for(int i = 0;i<cnt-2;i++)
+		{
+			int[] temp = new int[3];
+			temp[0] = i;
+			wall(0,temp);	
+		}
+	}
+	
+	static int max = 0;
+	
+	public static void wall(int count,int[] del)
+	{
+		if(count == 2)
+		{
+			int[][] tmap = new int[n][m];
+			for(int i=0 ;i<n;i++)
+				for(int j =0;j<m;j++)
+					tmap[i][j] = map[i][j];
+			
+			for(int i=0 ;i<3;i++)
+				tmap[zero[del[i]].x][zero[del[i]].y] = 1;
+			
+			int re = bfs(tmap);
+
+			if(max < re) max = re;
+			
+			return;
+		}
+		for(int i = 0; i< cnt-1+count;i++)
+		{
+			boolean flag = true;
+			for(int j = 0; j<=count;j++)
+			{
+				if(del[j] == i)
+				{
+					flag = false;	
+					break;
+				}
+			}
+			if(flag == false)
+				continue;
+			del[count+1] = i;
+			wall(count+1,del);	
+		}
+	}
+	
+	public static int bfs(int[][] map)
+	{
+		int val = cnt-3;
+		Iterator<axis> iter = two.iterator();
+		
+		Queue<axis> temp = new LinkedList<>();
+		while(iter.hasNext())
+			temp.add(iter.next());
+		
+		while(!temp.isEmpty())
+		{
+			axis t = temp.poll();
+			int x = t.x;
+			int y = t.y;
+			int tx,ty;
+			for(int i = 0;i<4;i++)
+			{
+				tx = x + d[i][0];
+				ty = y + d[i][1];
+				
+				if(tx >= n || ty >= m || tx < 0 || ty < 0) continue;
+				
+				if(map[tx][ty] == 0)
+				{
+					map[tx][ty] = 2;
+					val--;
+					temp.add(new axis(tx,ty));
+				}
+			}
+		}
+		
+		return val;
+	}
+}

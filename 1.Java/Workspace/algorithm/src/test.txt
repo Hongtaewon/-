@@ -1,6 +1,14 @@
-5
-1 1
-12 34
-5 500
-40 60
-1000 1000
+1
+pop_front
+back
+size
+empty
+pop_front
+pop_back
+pop_front
+size
+empty
+pop_back
+push_front 3
+empty
+front

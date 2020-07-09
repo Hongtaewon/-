@@ -1,43 +1,53 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import axios from "axios";
+import Movie from "./Movie";
+import "./App.css";
 
-//mounting, updating, unmounting <= Component Life Cycle.
 class App extends React.Component{
-  constructor(props){
-    super(props);
-    console.log("hello");
-  }
-  state = {
-    count: -999999999999999
-  };
+ 
+state = {
+  isLoading:true,
+  movies: []
+};
 
-  add = () => {
-    this.setState(current => ({count:current.count+1}));
-  };
-  minus = () => {
-    this.setState(current => ({count:current.count-1}));
-  };
+getMoives = async() => {
+  const {data:{data:{movies}}} = await axios.get("https://yts-proxy.now.sh/list_movies.json?sort_by=rating");
+  this.setState({movies, isLoading: false});
+}
 
-
-  componentDidMount(){
-    console.log("component rendered");
-  }
-  componentDidUpdate(){
-    console.log("component did updated");
-  }
-  componentWillUnmount(){
-    console.log("bye bye");
-  }
+componentDidMount(){
+  this.getMoives();
+}
 
   render(){
-    console.log("I`m rendering");
+    
+    const {isLoading, movies} = this.state;
+    
     return (
-    <div>
-      <h1>The number is {this.state.count}</h1>
-      <button onClick={this.add}>Add</button>
-      <button onClick={this.minus}>Minus</button>
-    </div>
-    )
+      <section className="container">
+        {isLoading ? 
+        (
+          <div className="loader">
+            <span className="loader_text">Loading...</span>
+          </div>
+        ) : 
+        (
+            <div className="movies">
+              {movies.map(movie => (
+                <Movie 
+                key={movie.id}
+                id={movie.id} 
+                year={movie.year} 
+                title={movie.title} 
+                summary={movie.summary} 
+                poster={movie.medium_cover_image} 
+                genres={movie.genres}
+              />
+              ))}
+            </div>
+        )}
+      </section>
+    );
   }
 }
 

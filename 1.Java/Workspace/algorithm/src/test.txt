@@ -1,14 +1,4 @@
-1
-pop_front
-back
-size
-empty
-pop_front
-pop_back
-pop_front
-size
-empty
-pop_back
-push_front 3
-empty
-front
+8
+20
+42
+0

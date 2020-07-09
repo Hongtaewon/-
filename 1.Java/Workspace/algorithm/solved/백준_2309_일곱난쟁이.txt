@@ -1,0 +1,109 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Arrays;
+
+public class Main {
+	
+	public static void main(String[] args) throws Exception {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		
+		int[] arr = new int[9];
+		int sum = 0;
+		for(int i = 0;i<9;i++)
+		{
+			arr[i] = Integer.parseInt(br.readLine());
+			sum += arr[i];
+		}
+		
+		for(int i=0;i<9;i++)
+		{
+			for(int j=0;j<9;j++)
+			{
+				if(i!=j && arr[i] + arr[j] == sum-100)
+				{
+					arr[i] = 0;
+					arr[j] = 0;
+					Arrays.sort(arr);
+					
+					for(int k = 2;k<9;k++)
+					{
+						bw.write(arr[k]+"\n");
+					}
+
+					bw.close();
+					return;
+				}
+			}
+		}
+	}
+}
+
+///////////////////////////////////////////////////////// Àç±Í
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Arrays;
+
+public class Main {
+	
+	public static void main(String[] args) throws Exception {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		
+		
+		
+		for(int i = 0;i<9;i++)
+		{
+			arr[i] = Integer.parseInt(br.readLine());
+		}
+		
+		int[] result = new int[7];
+		
+		find(0,0,"");
+		
+		for(int i = 0;i<7;i++)
+		{
+			result[i] = arr[idx[i]-48];
+		}
+		
+		Arrays.sort(result);
+		
+		for(int i = 0;i<7;i++)
+			bw.write(result[i]+"\n");
+		
+		bw.close();
+	}
+	
+	static int[] arr = new int[9];
+	static char[] idx = new char[7];
+	static boolean flag = false;
+	static public void find(int cnt,int sum,String str)
+	{
+		if(sum >= 100)
+		{
+			if(cnt == 7 && sum == 100)
+			{
+				idx = str.toCharArray();
+				flag = true;
+			}
+
+			return;
+		}
+		if(flag == true) return;
+		for(int i=0;i<9;i++)
+		{
+			if(!str.contains(String.valueOf(i)))
+			{
+				find(cnt+1,sum + arr[i],str + String.valueOf(i));	
+			}
+			if(flag == true) return;
+		}
+	}
+}

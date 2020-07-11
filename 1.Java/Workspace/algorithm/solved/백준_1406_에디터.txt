@@ -4,6 +4,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Stack;
 
+//링크드 리스트로 풀려고 했는데, add인 경우 O(n)이라 시간초과가 발생
+//검색해보니 Stack으로 풀면 가능해서 Stack으로 해결.
 public class Main {
 
 	public static void main(String[] args) throws Exception {

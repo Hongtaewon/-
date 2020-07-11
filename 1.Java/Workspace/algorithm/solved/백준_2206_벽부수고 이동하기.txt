@@ -1,0 +1,127 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+
+	static class axis {
+		int x;
+		int y;
+		int cnt = 0;
+		boolean flag = false;
+		axis(int x,int y,int cnt)
+		{
+			this.x = x;
+			this.y = y;
+			this.cnt = cnt;
+		}
+		axis(int x,int y,int cnt,boolean flag)
+		{
+			this.x = x;
+			this.y = y;
+			this.cnt = cnt;
+			this.flag = flag;
+		}
+	}
+	
+	static int[][] d = {
+			{1,0},	
+			{-1,0},	
+			{0,1},	
+			{0,-1}
+	};
+	static int n,m;
+	static int[][] map;
+	static boolean[][] visited1;
+	static boolean[][] visited2;
+	public static void main(String[] args) throws Exception {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		
+		map = new int[n][m];
+		visited1 = new boolean[n][m];
+		visited2 = new boolean[n][m];
+
+		
+		for(int i = 0;i<n;i++)
+		{
+			char[] temp = br.readLine().toCharArray();
+			for(int j = 0;j<m;j++)
+			{
+				map[i][j] = temp[j]-48;
+			}
+		}
+		que.add(new axis(0, 0, 1));
+		visited1[0][0] = true;
+		visited2[0][0] = true;
+		
+		bfs();
+		if(min == 999999999)
+			System.out.println(-1);
+		else
+			System.out.println(min);
+	}
+	static Queue<axis> que = new LinkedList<>();
+	static int min = 999999999;
+	public static void bfs() {
+		
+		while(!que.isEmpty())
+		{
+			axis now = que.poll();
+			int tx,ty;
+			
+			if(now.x == n-1 && now.y == m-1)
+			{
+				if(min > now.cnt) min = now.cnt;
+				break;
+			}
+			
+			for(int i =0;i<4;i++)
+			{
+				tx = now.x + d[i][0];
+				ty = now.y + d[i][1];
+				
+				if(tx >=n || ty >= m || tx < 0 || ty < 0) continue;
+				
+				if(now.flag == true)
+				{
+					if(visited1[tx][ty] == true)
+							continue;
+					
+					if(map[tx][ty] == 0)
+					{
+						visited1[tx][ty] = true;
+						que.add(new axis(tx, ty,now.cnt+1,now.flag));
+					}
+				}
+				else
+				{
+					if(visited2[tx][ty] == true)
+							continue;
+					
+					if(map[tx][ty] == 0)
+					{
+						visited2[tx][ty] = true;
+						que.add(new axis(tx, ty,now.cnt+1,now.flag));
+					}
+					
+					if(map[tx][ty] == 1 && now.flag == false)
+					{
+						visited1[tx][ty] = true;
+						que.add(new axis(tx,ty,now.cnt+1,true));
+					}
+				}
+			}
+		}
+	}
+}

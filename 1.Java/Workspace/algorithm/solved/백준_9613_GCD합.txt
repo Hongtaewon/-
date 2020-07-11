@@ -1,0 +1,59 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	public static int gcd(int a,int b)
+	{
+		int save=0;
+		while (true)
+		{
+			if (a % b == 0)
+			{
+				break;
+			}
+			save = b;
+			b = a % b;
+			a = save;
+		}
+		
+		return b;
+	}
+	
+	public static void main(String[] args) throws Exception {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+		int t = Integer.parseInt(br.readLine());
+		
+		while(t>0)
+		{
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			int n = Integer.parseInt(st.nextToken());
+			int[] arr = new int[n];
+			for(int i = 0;i<n;i++)
+			{
+				arr[i] = Integer.parseInt(st.nextToken());
+			}
+			
+			long sum = 0;
+	
+			for(int i = 0;i<n-1;i++)
+			{
+				for(int j = i+1;j<n;j++)
+				{
+					sum += gcd(arr[i],arr[j]);
+				}
+			}
+			bw.write(sum+"\n");
+			t--;
+		}
+		
+		
+		bw.flush();
+	}
+}

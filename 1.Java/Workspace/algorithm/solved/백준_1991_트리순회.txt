@@ -1,0 +1,139 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
+public class Main {
+
+	
+	
+	
+	static class Node{
+		String val;
+		Node left;
+		Node right;
+		public Node(String a) {
+			this.val = a;
+			this.left = null;
+			this.right = null;
+		}
+		
+		public void setLeft(Node L)
+		{
+			this.left = L;
+		}
+		public void setRight(Node R)
+		{
+			this.right = R;
+		}
+		public Node getLeft()
+		{
+			return this.left;
+		}
+		public Node getRight()
+		{
+			return this.right;
+		}
+		public String getData()
+		{
+			return this.val;
+		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		
+		int n = Integer.parseInt(br.readLine());
+		
+		String[] temp = br.readLine().split(" ");
+		Node root = new Node(temp[0]);
+		if(!temp[1].equals("."))
+		{
+			Node left = new Node(temp[1]);
+			root.setLeft(left);
+		}
+		if(!temp[2].equals("."))
+		{
+			Node right = new Node(temp[2]);
+			root.setRight(right);
+		}
+		
+		for(int i = 1;i<n;i++)
+		{
+			temp = br.readLine().split(" ");
+			
+			Node tempNode = findNode(temp[0], root);
+			
+			if(!temp[1].equals("."))
+			{
+				Node left = new Node(temp[1]);
+				tempNode.setLeft(left);
+			}
+			if(!temp[2].equals("."))
+			{
+				Node right = new Node(temp[2]);
+				tempNode.setRight(right);
+			}
+			
+		}
+		PreOrder(root);
+		System.out.println();
+		InOrder(root);
+		System.out.println();
+		PostOrder(root);
+		bw.flush();
+	}
+	
+	static public Node findNode(String v,Node root)
+	{
+		if(root.getData().equals(v)) return root;
+		if(root.getLeft() != null && root.getLeft().getData().equals(v)) return root.left;
+		if(root.getRight() != null && root.getRight().getData().equals(v)) return root.right;
+		
+		Node result = null;
+		if(root.left != null)
+			result = findNode(v, root.left);
+		if(root.right != null && result == null)
+			result = findNode(v, root.right);
+		return result;
+	}
+	
+	static public void PreOrder(Node root)
+	{
+		System.out.print(root.getData());
+		if(root.left != null)
+		{
+			PreOrder(root.left);
+		}
+		if(root.right != null)
+		{
+			PreOrder(root.right);
+		}
+	}
+	static public void InOrder(Node root)
+	{
+		if(root.left != null)
+		{
+			InOrder(root.left);
+		}
+		System.out.print(root.getData());
+		if(root.right != null)
+		{
+			InOrder(root.right);
+		}
+	}
+	static public void PostOrder(Node root)
+	{
+		if(root.left != null)
+		{
+			PostOrder(root.left);
+		}
+		if(root.right != null)
+		{
+			PostOrder(root.right);
+		}
+		System.out.print(root.getData());
+	}
+}

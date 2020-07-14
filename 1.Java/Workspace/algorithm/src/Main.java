@@ -2,20 +2,12 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
 
 	static int[][] map;
-	static int[][] visited;
-	static int[][] d = {
-			{1,0},
-			{-1,0},
-			{0,1},
-			{0,-1}
-	};
+	static boolean[][] visited;
 	static int n;
 	static class axis{
 		int x;
@@ -26,65 +18,110 @@ public class Main {
 			this.y = y;
 		}
 	}
+	static int[][] d = {
+		{0,1},
+		{1,0},
+		{-1,0},
+		{0,-1}
+		
+	};
 	
 	public static void main(String[] args) throws Exception {
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		
-		int cnt = 1;
-		while(true)
+
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		n = Integer.parseInt(st.nextToken());
+		
+
+		map = new int[n][n];
+		visited = new boolean[n][n];
+		for(int i = 0;i<n;i++)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			
-			n = Integer.parseInt(st.nextToken());
-			
-			if(n == 0) break;
-			
-			map = new int[n][n];
-			visited = new int[n][n];
-			for(int i = 0;i<n;i++)
+			st = new StringTokenizer(br.readLine());
+			for(int j = 0;j<n;j++)
 			{
-				st = new StringTokenizer(br.readLine());
-				for(int j = 0;j<n;j++)
+				map[i][j] = Integer.parseInt(st.nextToken());
+			}
+		}
+		int cnt = 2;
+		for(int i = 0;i<n;i++)
+		{
+			for(int j = 0;j<n;j++)
+			{
+				if(map[i][j] == 1)
 				{
-					map[i][j] = Integer.parseInt(st.nextToken());
-					visited[i][j] = 999999999;
+					dfs(i,j,cnt++);
 				}
 			}
-			que.add(new axis(0,0));
-			visited[0][0] = map[0][0];
-			bfs();
-			
-			bw.write("Problem "+cnt+": "+visited[n-1][n-1]+"\n");
-			cnt++;
 		}
+		
+		for(int i = 0;i<n;i++)
+		{
+			for(int j = 0;j<n;j++)
+			{
+				if(map[i][j] != 0)
+				{
+					visited[i][j] = true;
+					find(i,j,map[i][j],0);
+				}
+			}
+		}
+		
+		bw.write(min+"\n");
 		
 		bw.flush();
 	}
-	static Queue<axis> que = new LinkedList<>();
 	
-	public static void bfs()
+	public static void dfs(int x,int y,int cnt)
 	{
-	
-		while(!que.isEmpty())
+		int tx,ty;
+		
+		for (int i = 0; i < 4; i++)
 		{
-			int tx,ty;
-			axis temp = que.poll();
-			for(int i = 0;i<4;i++)
+			tx = x + d[i][0];
+			ty = y + d[i][1];
+
+			if (tx >= n || ty >= n || tx < 0 || ty < 0)
+				continue;
+
+			if(map[tx][ty] == 1) 
 			{
-				tx = temp.x + d[i][0];
-				ty = temp.y + d[i][1];
+				map[tx][ty] = cnt;
+				dfs(tx,ty,cnt);
+			} 
+		}
+	}
+	
+	static int min = 9999999;
+	public static void find(int x,int y,int val,int cnt)
+	{
+		if(min <= cnt) return;
+		int tx,ty;
+		
+		for (int i = 0; i < 4; i++)
+		{
+			tx = x + d[i][0];
+			ty = y + d[i][1];
+
+			if (tx >= n || ty >= n || tx < 0 || ty < 0 || map[tx][ty] == val || visited[tx][ty] == true)
+				continue;
+
+			if(map[tx][ty] == 0) 
+			{
+				visited[tx][ty] = true;
+				find(tx,ty,val,cnt+1);
+			}
+			else if(map[tx][ty] != val)
+			{
+				if(min > cnt) 
+					min = cnt;
 				
-				if(tx >= n|| ty >= n || tx < 0 || ty < 0) continue;
-				
-				if(visited[tx][ty] > visited[temp.x][temp.y] + map[tx][ty])
-				{
-					visited[tx][ty] = visited[temp.x][temp.y] + map[tx][ty];
-					que.add(new axis(tx,ty));
-				}
+				return;
 			}
 		}
-
 	}
 }

@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Main {
 
-	static int n,m,s,e;
+	static int n,m,s;
 	static class node implements Comparable<node>{
 		int end;
 		int weight;
@@ -24,9 +24,10 @@ public class Main {
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		StringTokenizer st = null;
-		n = Integer.parseInt(br.readLine());
-		m = Integer.parseInt(br.readLine());
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		s = Integer.parseInt(br.readLine());
 		
 		list = new ArrayList[n+1];
 		dist = new int[n+1];
@@ -45,15 +46,16 @@ public class Main {
 			int w = Integer.parseInt(st.nextToken());
 			list[u].add(new node(v, w));
 		}
-		st = new StringTokenizer(br.readLine());
-
-		s = Integer.parseInt(st.nextToken());
-		e = Integer.parseInt(st.nextToken());
+		
 		dijkstra(s);
 		
-		
-		bw.write(dist[e]+"\n");	
-		
+		for(int i = 1;i<=n;i++)
+		{
+			if(dist[i] == Integer.MAX_VALUE)
+				bw.write("INF\n");
+			else
+				bw.write(dist[i]+"\n");	
+		}
 		bw.flush();
 	}
 	

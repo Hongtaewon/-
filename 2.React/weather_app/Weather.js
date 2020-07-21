@@ -1,8 +1,9 @@
 import React from "react";
-import { View, Text, StyleSheet, StatusBar } from "react-native";
+import { View, Text, StyleSheet, StatusBar, Dimensions } from "react-native";
 import PropTypes from "prop-types";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { LineChart } from "react-native-chart-kit";
 
 const weatherOptions = {
   Thunderstorm: {
@@ -65,7 +66,55 @@ const weatherOptions = {
   }
 };
 
-export default function Weather({ temp, condition }) {
+
+function MakeChart({data}){
+
+
+  
+  const timelist = data.list.map((x) => [x.dt_txt]);
+  const templist = data.list.map((x) => [x.main.temp]);
+
+  return (
+    <LineChart 
+          data={{
+            labels: timelist,
+            datasets: [
+              {
+                data: templist
+              }
+            ]
+          }}
+          width={screen.width} // from react-native
+          height={screen.height/3}
+          yAxisLabel=""
+          yAxisSuffix="°"
+          yAxisInterval={2} // optional, defaults to 1
+          chartConfig={{
+            backgroundGradientFromOpacity: 0,
+            backgroundGradientToOpacity: 0,
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+           
+          }}
+          style={{
+            marginLeft: 0,
+            borderRadius: 16
+          }}
+      
+        
+
+        />
+  );
+}
+
+export default function Weather({data}) {
+
+  console.log(data);
+
+  const temp = data.list[0].main.temp;
+  const condition = data.list[0].weather[0].main;
+
   return (
     <LinearGradient
       colors={weatherOptions[condition].gradient}
@@ -80,6 +129,9 @@ export default function Weather({ temp, condition }) {
         />
         <Text style={styles.temp}>{temp}°</Text>
       </View>
+      <View style={styles.ChartContainer}>
+        <MakeChart data={data} />
+      </View>
       <View style={styles.textContainer}>
         <Text style={styles.title}>{weatherOptions[condition].title}</Text>
         <Text style={styles.subtitle}>
@@ -88,22 +140,10 @@ export default function Weather({ temp, condition }) {
       </View>
     </LinearGradient>
   );
+
 }
 
 Weather.propTypes = {
-  temp: PropTypes.number.isRequired,
-  condition: PropTypes.oneOf([
-    "Thunderstorm",
-    "Drizzle",
-    "Rain",
-    "Snow",
-    "Atmosphere",
-    "Clear",
-    "Clouds",
-    "Haze",
-    "Mist",
-    "Dust"
-  ]).isRequired
 };
 
 const styles = StyleSheet.create({
@@ -133,6 +173,12 @@ const styles = StyleSheet.create({
     textAlign: "left"
   },
   textContainer: {
+    alignItems: "flex-start",
+    paddingHorizontal: 40,
+    justifyContent: "center",
+    flex: 1
+  },
+  ChartContainer: {
     alignItems: "flex-start",
     paddingHorizontal: 40,
     justifyContent: "center",

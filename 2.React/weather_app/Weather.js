@@ -3,7 +3,8 @@ import { View, Text, StyleSheet, StatusBar, ScrollView} from "react-native";
 import PropTypes from "prop-types";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import MakeTable from "./MakeTable";
+import MakeCandle from "./MakeCandle";
+import MakeChart from "./MakeChart";
 
 const weatherOptions = {
   Thunderstorm: {
@@ -65,11 +66,11 @@ export default function Weather({data}) {
   const hourly = data.hourly;
   const daily = data.daily;
 
-  console.log(hourly);
-
-  const temp = current.temp;
   const condition = current.weather[0].main;
   const description = current.weather[0].description;
+
+  console.log(current);
+
   return (
     <LinearGradient
       colors={weatherOptions[condition].gradient}
@@ -94,7 +95,7 @@ export default function Weather({data}) {
             name={weatherOptions[condition].iconName}
             color="white"
           />
-          <Text style={styles.temp}>{temp}°</Text>
+          <Text style={styles.temp}>{current.temp}°</Text>
         </View>
 
         <View style={styles.currentInfo}>
@@ -104,13 +105,20 @@ export default function Weather({data}) {
           <Text style={styles.info}>풍속: {current.wind_speed}m/s</Text>
         </View>
       </View>
+      <View style={styles.TextContainer}>
+        <Text style={styles.title}>{description}</Text>
+          <Text style={styles.subtitle}>
+            {weatherOptions[condition].subtitle}
+        </Text>
+      </View>
       <View style={styles.TableContainer}>
-        <View style={styles.chartRow}>
+        <View style={styles.chartRow} horizontal={true}>
+          <MakeChart data={hourly}/>
         </View>
       </View>
       <View style={styles.CandleContainer}>
         <ScrollView style={styles.chartRow} horizontal={true}>
-        <MakeTable data={daily.slice(1,8)} />
+        <MakeCandle data={daily.slice(1,8)} />
         </ScrollView>
       </View>
     </LinearGradient>
@@ -125,18 +133,40 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  halfContainer: {
+    flex: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: 'row',
+    paddingTop: 15,
+  },
+  
+  TextContainer: {
+    alignItems: "center",
+    paddingHorizontal: 40,
+    justifyContent: "center",
+    flex: 1
+  },
+  TableContainer: {
+    alignItems: "flex-start",
+    justifyContent: "center",
+    flex: 3,
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    marginTop: -10,
+  },
+  CandleContainer: {
+    alignItems: "flex-start",
+    justifyContent: "center",
+    flex: 2,
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+  },
   temp: {
     fontSize: 20,
     color: "white"
-  },
-  halfContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    margin: (10, 0, 0, 0),
-    flexDirection: 'row',
-    borderWidth: 0.5,
-    borderColor: "#f2f2f2",
   },
   currentTime:{
     justifyContent: "center",
@@ -161,39 +191,13 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 30,
     fontWeight: "300",
-    textAlign: "left"
+    marginTop:-30,
   },
   subtitle: {
     fontWeight: "600",
     color: "white",
     fontSize: 16,
-    textAlign: "left"
-  },
-  textContainer: {
-    alignItems: "flex-start",
-    paddingHorizontal: 40,
-    justifyContent: "center",
-    flex: 1
-  },
-  TableContainer: {
-    alignItems: "flex-start",
-    justifyContent: "center",
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    borderWidth: 0.5,
-    borderColor: "#f2f2f2",
-  },
-  CandleContainer: {
-    alignItems: "flex-start",
-    justifyContent: "center",
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    borderWidth: 0.5,
-    borderColor: "#f2f2f2",
+    marginTop: 5,
   },
   chartRow: {
     flex: 1,

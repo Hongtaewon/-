@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "weather_app",
-    "slug": "weather_app",
+    "name": "둥둥과무민의날씨일기",
+    "slug": "doungmu",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -23,7 +23,7 @@
       "favicon": "./assets/favicon.png"
     },
     "android": {
-      "package": "com.hongtaewon.hongtaewon"
+      "package": "com.kimhyunjung.hongtaewon"
     }
   }
 }

@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { View, Text, StyleSheet} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -58,7 +57,7 @@ const weatherOptions = {
 
 var maxtemp = 0;
 
-export default function MakeTable(list)
+export default function MakeCandle(list)
 {
   
   const maxtemplist = list.data.map((x) => x.temp.max);
@@ -78,7 +77,7 @@ export default function MakeTable(list)
                         color="white"
                     />
                   </View>
-                    <View style={styles.Container} >
+                    <View style={styles.InnerContainer} >
                       <View style={styles.box1}>
                         <Svg width="100" height="60" version="1.1">
                           <Defs>
@@ -118,10 +117,14 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
   },
+  InnerContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
   TableContainer: {
     alignItems: "flex-start",
     flex: 1,
-    width: '100%',
+    width: 110,
     height: '100%',
     alignItems: 'center',
     borderWidth: 0.5,
@@ -132,7 +135,7 @@ const styles = StyleSheet.create({
     color: "white"
   },
   temp: {
-    fontSize: 8,
+    fontSize: 10,
     color: "white"
   },
   wind: {

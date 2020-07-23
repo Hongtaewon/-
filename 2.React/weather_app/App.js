@@ -5,7 +5,7 @@ import * as Location from "expo-location";
 import axios from "axios";
 import Weather from "./Weather";
 
-const API_KEY = "cdcade2576afdf858441e7c856df4af2";
+const API_KEY = "";
 
 export default class extends React.Component {
   state = {
@@ -14,7 +14,7 @@ export default class extends React.Component {
 
   getWeather = async (latitude, longitude) => {
     const {data} = await axios.get(
-      `http://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=currently&APPID=${API_KEY}&units=metric`
+      `http://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=currently&APPID=${API_KEY}&units=metric&lang=kr`
     );
 
     this.setState({

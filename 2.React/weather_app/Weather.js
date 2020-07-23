@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, StatusBar} from "react-native";
+import { View, Text, StyleSheet, StatusBar, ScrollView} from "react-native";
 import PropTypes from "prop-types";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -57,6 +57,7 @@ const weatherOptions = {
   }
 };
 
+const daylist = ["월","화","수","목","금","토","일"];
 
 export default function Weather({data}) {
 
@@ -64,9 +65,7 @@ export default function Weather({data}) {
   const hourly = data.hourly;
   const daily = data.daily;
 
-  //console.log(current);
-  //console.log(hourly);
-  //console.log(daily);
+  console.log(hourly);
 
   const temp = current.temp;
   const condition = current.weather[0].main;
@@ -78,28 +77,41 @@ export default function Weather({data}) {
     >
       <StatusBar barStyle="light-content" />
       <View style={styles.halfContainer}>
-        <MaterialCommunityIcons
-          size={96}
-          name={weatherOptions[condition].iconName}
-          color="white"
-        />
-        <Text style={styles.temp}>{temp}°</Text>
+
+        <View style={styles.currentDate}>
+          <View style={{flex: 1, flexDirection: 'row'}} >
+            <View style={styles.currentTime}>
+              <Text style={styles.date}>{new Date(current.dt*1000).getMonth()+1}월</Text>
+              <Text style={styles.date}>{new Date(current.dt*1000).getDate()}일</Text>
+              <Text style={styles.day}>{daylist[new Date(current.dt*1000).getDay()-1]}요일</Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.currentTemp}>
+          <MaterialCommunityIcons
+            size={70}
+            name={weatherOptions[condition].iconName}
+            color="white"
+          />
+          <Text style={styles.temp}>{temp}°</Text>
+        </View>
+
+        <View style={styles.currentInfo}>
+          <Text style={styles.info}>체감온도: {current.feels_like}°</Text>
+          <Text style={styles.info}>습도: {current.humidity}%</Text>
+          <Text style={styles.info}>가시거리: {current.visibility}m</Text>
+          <Text style={styles.info}>풍속: {current.wind_speed}m/s</Text>
+        </View>
+      </View>
+      <View style={styles.TableContainer}>
+        <View style={styles.chartRow}>
+        </View>
       </View>
       <View style={styles.CandleContainer}>
-        <View style={styles.chartRow}>
-          <여기에는 지금부터 앞으로의 온도 변화를 나타내는 표를 그림/>
-        </View>
-      </View>
-      <View style={styles.ChartContainer}>
-        <View style={styles.chartRow}>
-        <MakeTable data={daily.slice(1,6)} />
-        </View>
-      </View>
-      <View style={styles.textContainer}>
-        <Text style={styles.title}>{description}</Text>
-        <Text style={styles.subtitle}>
-          {weatherOptions[condition].subtitle}
-        </Text>
+        <ScrollView style={styles.chartRow} horizontal={true}>
+        <MakeTable data={daily.slice(1,8)} />
+        </ScrollView>
       </View>
     </LinearGradient>
   );
@@ -114,25 +126,47 @@ const styles = StyleSheet.create({
     flex: 1
   },
   temp: {
-    fontSize: 42,
+    fontSize: 20,
     color: "white"
   },
   halfContainer: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    margin: (10, 0, 0, 0),
+    flexDirection: 'row',
+    borderWidth: 0.5,
+    borderColor: "#f2f2f2",
+  },
+  currentTime:{
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  currentDate:{
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  currentTemp:{
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  currentInfo:{
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "flex-start",
   },
   title: {
     color: "white",
-    fontSize: 44,
+    fontSize: 30,
     fontWeight: "300",
-    marginBottom: 10,
     textAlign: "left"
   },
   subtitle: {
     fontWeight: "600",
     color: "white",
-    fontSize: 24,
+    fontSize: 16,
     textAlign: "left"
   },
   textContainer: {
@@ -141,26 +175,40 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1
   },
-  ChartContainer: {
+  TableContainer: {
     alignItems: "flex-start",
     justifyContent: "center",
     flex: 1,
-    paddingTop: 30,
     width: '100%',
     height: '100%',
     alignItems: 'center',
+    borderWidth: 0.5,
+    borderColor: "#f2f2f2",
   },
   CandleContainer: {
     alignItems: "flex-start",
     justifyContent: "center",
     flex: 1,
-    paddingTop: 30,
     width: '100%',
     height: '100%',
     alignItems: 'center',
+    borderWidth: 0.5,
+    borderColor: "#f2f2f2",
   },
   chartRow: {
     flex: 1,
     width: '100%'
   },
+  date: {
+    fontSize: 25,
+    color: "white"
+  },
+  day: {
+    fontSize: 20,
+    color: "white"
+  },
+  info: {
+    fontSize: 12,
+    color: "white"
+  }
 });

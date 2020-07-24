@@ -69,8 +69,6 @@ export default function Weather({data}) {
   const condition = current.weather[0].main;
   const description = current.weather[0].description;
 
-  console.log(current);
-
   return (
     <LinearGradient
       colors={weatherOptions[condition].gradient}
@@ -112,9 +110,9 @@ export default function Weather({data}) {
         </Text>
       </View>
       <View style={styles.TableContainer}>
-        <View style={styles.chartRow} horizontal={true}>
-          <MakeChart data={hourly}/>
-        </View>
+        <ScrollView style={styles.chartRow} horizontal={true}>
+          <MakeChart data={hourly.slice(0,24)}/>
+        </ScrollView>
       </View>
       <View style={styles.CandleContainer}>
         <ScrollView style={styles.chartRow} horizontal={true}>
@@ -201,7 +199,7 @@ const styles = StyleSheet.create({
   },
   chartRow: {
     flex: 1,
-    width: '100%'
+    width: '100%',
   },
   date: {
     fontSize: 25,

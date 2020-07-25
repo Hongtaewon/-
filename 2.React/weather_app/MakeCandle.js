@@ -6,62 +6,50 @@ import {Svg, Rect, Defs, Line, LinearGradient, Stop} from "react-native-svg";
 const weatherOptions = {
     Thunderstorm: {
       iconName: "weather-lightning",
-      gradient: ["#373B44", "#4286f4"],
-      subtitle: "천둥 번개가 치고 있으니 집에서 휴식하세요."
     },
     Drizzle: {
       iconName: "weather-hail",
-      gradient: ["#89F7FE", "#66A6FF"],
-      subtitle: "이슬비가 오니까 집에서 휴식하세요."
     },
     Rain: {
       iconName: "weather-rainy",
-      gradient: ["#00C6FB", "#005BEA"],
-      subtitle: "비가 오니까 집에서 휴식하세요."
     },
     Snow: {
       iconName: "weather-snowy",
-      gradient: ["#7DE2FC", "#B9B6E5"],
-      subtitle: "눈이 오니까 집에서 눈을 감상하세요."
     },
     Atmosphere: {
       iconName: "weather-hail",
-      gradient: ["#89F7FE", "#66A6FF"]
     },
     Clear: {
       iconName: "weather-sunny",
-      gradient: ["#FF7300", "#FEF253"],
-      subtitle: "구름없이 맑으므로 집에서 태양을 피하세요."
     },
     Clouds: {
       iconName: "weather-cloudy",
-      gradient: ["#D7D2CC", "#304352"],
-      subtitle: "야외 활동하기 좋은 날"
     },
     Mist: {
       iconName: "weather-hail",
-      gradient: ["#4DA0B0", "#D39D38"],
-      subtitle: "안개는 위험할 수도 있으니 집에서 휴식하세요."
     },
     Dust: {
       iconName: "weather-hail",
-      gradient: ["#4DA0B0", "#D39D38"],
-      subtitle: "미세먼지는 몸에 안 좋으니 집에서 휴식하세요."
     },
     Haze: {
       iconName: "weather-hail",
-      gradient: ["#4DA0B0", "#D39D38"],
-      subtitle: "안개는 위험할 수도 있으니 집에서 휴식하세요."
     }
   };
 
-var maxtemp = 0;
 
 export default function MakeCandle(list)
 {
-  
   const maxtemplist = list.data.map((x) => x.temp.max);
-  var maxtemp = maxtemp > Math.max.apply(null,maxtemplist) ? maxtemp : Math.max.apply(null,maxtemplist) ;
+  const mintemplist = list.data.map((x) => x.temp.min);
+  var maxtemp = maxtemp > Math.max.apply(null,maxtemplist) ? maxtemp : Math.max.apply(null,maxtemplist);
+  var multiple = 5;
+  for(var i=0;i<maxtemplist.length;i++)
+  {
+    if(maxtemplist[i] - mintemplist[i] > 10) {
+      multiple = 4;
+      break;
+    }
+  }
 
     return(
 
@@ -70,7 +58,9 @@ export default function MakeCandle(list)
                     list.data.map((x) =>
                 <View style={styles.TableContainer} key={new Date(x.dt*1000)}>
                    <View style={styles.mb10}>
-                    <Text style={styles.date}>{new Date(x.dt*1000).getMonth()+1}월 {new Date(x.dt*1000).getDate()}일</Text>
+                    <Text style={styles.date}>
+                      {new Date(x.dt*1000).getMonth()+1}/{new Date(x.dt*1000).getDate()}
+                    </Text>
                     <MaterialCommunityIcons
                         size={40}
                         name={weatherOptions[x.weather[0].main].iconName}
@@ -82,14 +72,14 @@ export default function MakeCandle(list)
                         <Svg width="100" height="60" version="1.1">
                           <Defs>
                             <LinearGradient id="grad" x1="0" y1="1" x2="0" y2="0">
-                              <Stop offset="0" stopColor="blue" stopOpacity="1" />
-                              <Stop offset="1" stopColor="red" stopOpacity="1" />
+                              <Stop offset="0" stopColor="#3538D6" stopOpacity="1" />
+                              <Stop offset="1" stopColor="#FF2A2A" stopOpacity="1" />
                             </LinearGradient>
                           </Defs>
-                          <Line x1="50" y1="0" x2="50" y2="100" stroke="white" strokeWidth="2" />
+                          <Line x1="50" y1="0" x2="50" y2="100" stroke="#FFFFFF" strokeWidth="2" />
                           <Rect 
                             width="10" 
-                            height={(x.temp.max - x.temp.min)*5}
+                            height={(x.temp.max - x.temp.min)*multiple}
                             x="45" 
                             y={maxtemp - x.temp.max+5}
                             fill="url(#grad)"
@@ -127,20 +117,18 @@ const styles = StyleSheet.create({
     width: 110,
     height: '100%',
     alignItems: 'center',
-    borderWidth: 0.5,
+    borderWidth: 0.3,
     borderColor: "#f2f2f2",
   },
   date: {
     fontSize: 15,
-    color: "white"
+    color: "white",
+    fontWeight: "600"
   },
   temp: {
     fontSize: 10,
-    color: "white"
-  },
-  wind: {
-    fontSize: 8,
-    color: "white"
+    color: "white",
+    fontWeight:"500"
   },
   box1: {
     marginLeft: -45

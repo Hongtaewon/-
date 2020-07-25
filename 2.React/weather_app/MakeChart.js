@@ -56,7 +56,6 @@ export default function MakeChart({data}){
           renderDotContent={(x)=>{
             PointData.push(x);
           }}
-          bezier
         />
         <MakeTempText axis={PointData} temp={templist}/>
       </View>
@@ -65,6 +64,6 @@ export default function MakeChart({data}){
 
 const styles = StyleSheet.create({
   mlm50: {
-    marginLeft:-50
+    marginLeft:-55
   }
 })

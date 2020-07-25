@@ -13,8 +13,8 @@ export default function MakeTempText(data){
         key={Math.random()} 
         style={{
         position: "absolute",
-        left: a[0]-2,
-        top: a[1]-15,
+        left: a[0]-3,
+        top: a[1]-17,
         height: 30,
         width: 40
         }} >

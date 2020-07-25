@@ -1,15 +1,16 @@
 import React from "react";
-import { Alert } from "react-native";
+import { Alert,ScrollView, RefreshControl } from "react-native";
 import Loading from "./Loading";
 import * as Location from "expo-location";
 import axios from "axios";
 import Weather from "./Weather";
 
-const API_KEY = "";
+const API_KEY = "e61db370dd85bd5ff3765d6d41f0bd1c";
 
 export default class extends React.Component {
   state = {
-    isLoading: true
+    isLoading: true,
+    refreshing: false,
   };
 
   getWeather = async (latitude, longitude) => {
@@ -19,6 +20,7 @@ export default class extends React.Component {
 
     this.setState({
       isLoading: false,
+      refreshing:false,
       data
     });
   };
@@ -36,14 +38,32 @@ export default class extends React.Component {
   componentDidMount() {
     this.getLocation();
   }
+
+  _onRefresh = () => {
+    this.setState({
+      isLoading: true,
+      refreshing:true,
+    });
+    this.getLocation();
+  }
+
   render() {
-    const { isLoading, data } = this.state;
-    return isLoading ? (
-      <Loading />
-    ) : (
-      <Weather data={data} />
-    );
+    const { isLoading, data, refreshing } = this.state;
+    return (
+
+      <ScrollView 
+        contentContainerStyle={{flexGrow: 1}}
+        refreshControl= {
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={this._onRefresh}
+          />
+        }
+      >
+        {isLoading ? (<Loading data={refreshing}/>) : (<Weather data={data} />)
+        }
+      </ScrollView>
+    )
+    
   }
 }
-
-

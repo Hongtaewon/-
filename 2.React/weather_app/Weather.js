@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Text, StyleSheet, StatusBar, ScrollView} from "react-native";
-import PropTypes from "prop-types";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MakeCandle from "./MakeCandle";
@@ -58,7 +57,7 @@ const weatherOptions = {
   }
 };
 
-const daylist = ["월","화","수","목","금","토","일"];
+const daylist = ["일","월","화","수","목","금","토"];
 
 export default function Weather({data}) {
 
@@ -80,9 +79,8 @@ export default function Weather({data}) {
         <View style={styles.currentDate}>
           <View style={{flex: 1, flexDirection: 'row'}} >
             <View style={styles.currentTime}>
-              <Text style={styles.date}>{new Date(current.dt*1000).getMonth()+1}월</Text>
-              <Text style={styles.date}>{new Date(current.dt*1000).getDate()}일</Text>
-              <Text style={styles.day}>{daylist[new Date(current.dt*1000).getDay()-1]}요일</Text>
+              <Text style={styles.date}>{new Date(current.dt*1000).getMonth()+1}/{new Date(current.dt*1000).getDate()}</Text>
+              <Text style={styles.day}>{daylist[new Date(current.dt*1000).getDay()]}요일</Text>
             </View>
           </View>
         </View>
@@ -99,7 +97,6 @@ export default function Weather({data}) {
         <View style={styles.currentInfo}>
           <Text style={styles.info}>체감온도: {current.feels_like}°</Text>
           <Text style={styles.info}>습도: {current.humidity}%</Text>
-          <Text style={styles.info}>가시거리: {current.visibility}m</Text>
           <Text style={styles.info}>풍속: {current.wind_speed}m/s</Text>
         </View>
       </View>
@@ -124,9 +121,6 @@ export default function Weather({data}) {
 
 }
 
-Weather.propTypes = {
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1
@@ -136,26 +130,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: 'row',
-    paddingTop: 15,
+    paddingTop: 20,
   },
   
   TextContainer: {
     alignItems: "center",
-    paddingHorizontal: 40,
     justifyContent: "center",
-    flex: 1
+    flex: 1,
+    paddingTop: 20,
   },
   TableContainer: {
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "center",
-    flex: 3,
+    flex: 1,
     width: '100%',
     height: '100%',
     alignItems: 'center',
-    marginTop: -10,
   },
   CandleContainer: {
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "center",
     flex: 2,
     width: '100%',
@@ -163,8 +156,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   temp: {
-    fontSize: 20,
-    color: "white"
+    fontSize: 30,
+    color: "white",
   },
   currentTime:{
     justifyContent: "center",
@@ -174,22 +167,28 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    width: '100%',
+    height: '100%',
   },
   currentTemp:{
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    width: '100%',
+    height: '100%',
   },
   currentInfo:{
     flex: 1,
     justifyContent: "center",
     alignItems: "flex-start",
+    width: '100%',
+    height: '100%',
   },
   title: {
     color: "white",
     fontSize: 30,
     fontWeight: "300",
-    marginTop:-30,
+    marginTop:-10,
   },
   subtitle: {
     fontWeight: "600",
@@ -202,15 +201,18 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   date: {
-    fontSize: 25,
-    color: "white"
+    fontSize: 30,
+    color: "white",
+    fontWeight:"800",
   },
   day: {
-    fontSize: 20,
-    color: "white"
+    fontSize: 25,
+    color: "white",
+    fontWeight:"800",
   },
   info: {
-    fontSize: 12,
-    color: "white"
+    fontSize: 14,
+    color: "white",
+    fontWeight:"500",
   }
 });

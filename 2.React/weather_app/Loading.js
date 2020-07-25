@@ -1,11 +1,16 @@
 import React from "react";
 import { StyleSheet, Text, View, StatusBar } from "react-native";
 
-export default function Loading() {
+export default function Loading({data}) {
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <Text style={styles.text}>날씨를 로딩 중....</Text>
+      <Text style={styles.text}>
+        {
+          (data == false) ? "날씨를 로딩 중...." : "날씨를 다시 가져오는 중...."
+        }
+      </Text>
     </View>
   );
 }
@@ -20,6 +25,6 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#2c2c2c",
-    fontSize: 30
+    fontSize: 25
   }
 });

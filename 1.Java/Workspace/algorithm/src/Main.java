@@ -3,65 +3,61 @@ import java.util.*;
 
 public class Main {
 
-	static boolean[][] map;
-	static int n;
+	static int n,m;
 	public static void main(String[] args) throws Exception {
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		StringTokenizer st = null;
-		n = Integer.parseInt(br.readLine());
-		map = new boolean[n][n];
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
 		
-		queen(0);
-		bw.write(result+"\n");
-		bw.flush();
-	}
-	static int result = 0;
-	public static void queen(int x)
-	{
-		if(x == n)
-		{
-			result++;
-			return;
-		}
+		long[] arr = new long[n];
+		long sum = 0;
 		
+		st = new StringTokenizer(br.readLine());
 		for(int i = 0;i<n;i++)
 		{
-			map[x][i] = true;
-			if(check(x,i)) {
-				queen(x+1);
+			int temp = Integer.parseInt(st.nextToken());
+			sum += temp;
+			arr[i] = temp;
+		}
+		
+		long hi = sum/m;
+		long lo = 0;
+		long time = 0;
+		long max = 0;
+		while(lo < hi)
+		{
+			time = 0;
+			long mid = (hi + lo) / 2;
+			long cnt = 0;
+			max = 0;
+			for(int i = 0;i< n;i++)
+			{
+				if(mid >= time + arr[i])
+				{
+					time += arr[i];
+					
+				}
+				else
+				{
+					cnt++;
+					if(cnt == m) break;
+					time = arr[i];
+				}
+				max = max > time ? max : time;
 			}
-			map[x][i] = false;
-		}
-	}
-	
-	public static boolean check(int x,int y)
-	{
-		//x축
-		for(int i = 0;i<n;i++)
-		{
-			if(i == x)
-				continue;
-			if(map[i][y])
-				return false;
+			if (m > cnt) lo = mid + 1;
+			else if (m  < cnt) hi = mid - 1;
+			else if (m == cnt)
+			{
+				lo = mid + 1;
+				hi = hi + 1;
+			}
 		}
 		
-		//왼쪽 아래 대각선
-		for(int i = 1;i<n;i++)
-		{
-			if(x-i >=0 && y-i >= 0)
-				if(map[x-i][y-i])
-					return false;
-		}
-		//오른쪽 아래 대각선
-		for(int i = 1;i<n;i++)
-		{
-			if(x-i >=0 && y + i < n)
-				if(map[x-i][y+i])
-					return false;
-		}
-		
-		return true;
+		bw.write(max+"\n");
+		bw.flush();
 	}
 }

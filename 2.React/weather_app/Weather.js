@@ -65,6 +65,7 @@ export default function Weather({data}) {
   const hourly = data.hourly;
   const daily = data.daily;
 
+  console.log(daily)
   const condition = current.weather[0].main;
   const description = current.weather[0].description;
 

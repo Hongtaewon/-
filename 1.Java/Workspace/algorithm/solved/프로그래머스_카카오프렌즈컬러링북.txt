@@ -1,6 +1,16 @@
-import java.io.*;
 import java.util.LinkedList;
 import java.util.Queue;
+
+
+/*
+ * Solution함수 안에서 주어진 picture 배열을 직접 건드리면 실패가 나옴
+ * 따라서 반드시 picture 배열을 복사헤서 사용해야 통과됩니다.
+ * 
+ * 
+ * 
+ * 
+ * 
+ * */
 
 public class Main {
 

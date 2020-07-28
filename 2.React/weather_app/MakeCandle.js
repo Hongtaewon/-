@@ -90,6 +90,7 @@ export default function MakeCandle(list)
                       <View style={styles.box2}>
                         <Text style={styles.temp}>최고 온도: {x.temp.max}°</Text>
                         <Text style={styles.temp}>최저 온도: {x.temp.min}°</Text>
+                        <Text style={styles.temp}>강수 확률: {x.pop * 100}%</Text>
                         <Text style={styles.temp}>습도: {x.humidity}%</Text>
                         <Text style={styles.temp}>풍속: {x.wind_speed}m/s</Text>
                       </View>

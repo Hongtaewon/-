@@ -64,6 +64,6 @@ export default function MakeChart({data}){
 
 const styles = StyleSheet.create({
   mlm50: {
-    marginLeft:-55
+    marginLeft:-50
   }
 })

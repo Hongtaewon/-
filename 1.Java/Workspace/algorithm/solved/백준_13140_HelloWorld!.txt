@@ -1,0 +1,64 @@
+import java.io.*;
+
+
+public class Main {
+
+	public static void main(String[] args) throws Exception {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+		int n = Integer.parseInt(br.readLine());
+		
+		if(n > 1000000)
+		{
+			System.out.println("No Answer");
+			return;
+		}
+		
+		for(int d = 0;d<10;d++)
+		{
+			for(int r = 0;r<10;r++)
+			{
+				if(r == d) continue;
+				for(int o = 0;o<10;o++)
+				{
+					if(o == r || o == d) continue;
+					for(int l = 0;l<10;l++)
+					{
+						if(l == o || l == r || l == d) continue;
+						for(int e = 0;e<10;e++)
+						{
+							if(e == l || e == o || e == r || e == d) continue;
+							for(int w = 1;w<10;w++)
+							{
+								if(w == e || w == l || w == o || w ==r || w == d) continue;
+								for(int h = 1;h<10;h++)
+								{
+									if(h == w || h == e || h == l || h == o || h == r || h == d) continue;
+									
+									int hello = (h * 10000) + (e * 1000) + (l *100) + (l * 10) + o;
+									int world = (w * 10000) + (o * 1000) + (r *100) + (l * 10) + d;
+									if(hello + world == n)
+									{
+										bw.write("  "+hello+"\n"+"+ "+world+"\n"+"-------\n");
+
+										if(n<100000) bw.write(" ");
+										bw.write(" "+n+"\n");
+
+										bw.flush();
+										return;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		bw.write("No Answer\n");
+		
+		bw.flush();
+	}
+
+}

@@ -25,7 +25,7 @@ public class Main {
 		{
 			int temp = Integer.parseInt(st.nextToken());
 			int low = lowerBound(cards, 0, cards.length,temp);
-			int high = lowerBound(cards, 0, cards.length, temp+1);
+			int high = upperBound(cards, 0, cards.length, temp);
 			bw.write(high - low+" ");
 		}
 		

@@ -4,7 +4,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MakeCandle from "./MakeCandle";
 import MakeChart from "./MakeChart";
-import {Svg, Rect, Defs, Marker, Path} from "react-native-svg";
 
 const weatherOptions = {
   Thunderstorm: {

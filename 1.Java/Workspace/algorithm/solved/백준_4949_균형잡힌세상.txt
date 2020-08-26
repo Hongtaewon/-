@@ -1,0 +1,67 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	static int n,m;
+	public static void main(String[] args) throws Exception {
+		
+		while(true)
+		{
+			String s = br.readLine();
+			
+			int len = s.length();
+			
+			if(s.charAt(0) == '.' && len == 1)
+				break;
+		
+			Stack<Character> st = new Stack<>();
+			boolean flag = false;
+			for(int i = 0;i<len;i++)
+			{
+				char temp = s.charAt(i);
+				if(temp == '(')
+					st.add('(');
+				else if(temp == '[')
+					st.add('[');
+				else if(temp == ')')
+				{
+					if(!st.isEmpty() && st.peek() == '(')
+						st.pop();
+					else
+					{
+						bw.write("no\n");
+						flag = true;
+						break;
+					}
+				}
+				else if(temp == ']')
+				{
+					if(!st.isEmpty() && st.peek() == '[')
+						st.pop();
+					else
+					{
+						bw.write("no\n");
+						flag = true;
+						break;
+					}
+				}
+			}
+			
+			if(flag == false)
+			{
+				if(st.size()>0)
+					bw.write("no\n");
+				else
+					bw.write("yes\n");
+			}
+		}
+		
+		
+		
+		bw.flush();
+	}
+}

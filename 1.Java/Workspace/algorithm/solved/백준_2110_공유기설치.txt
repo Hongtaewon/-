@@ -1,0 +1,58 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	static int n,k;
+	static int[] arr;
+	public static void main(String[] args) throws Exception {
+		
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		n = Integer.parseInt(st.nextToken());
+		k = Integer.parseInt(st.nextToken());
+		arr = new int[n];
+		int left = Integer.MAX_VALUE;
+		int right = 0;
+		int result = 0;
+		
+		for(int i = 0;i< n;i++)
+		{
+			int temp = Integer.parseInt(br.readLine());
+			arr[i] = temp;
+			if(temp < left) left = temp;
+			if(temp > right) right = temp;
+		}
+		
+		right = (right-left) / (k-1);
+		left = 1;
+		Arrays.sort(arr);
+		while(left<=right) {
+			int temp = arr[0];
+			int cnt = 1;
+			int mid = (left + right) / 2;
+			for(int i = 0;i<n;i++)
+			{
+				if(arr[i] >= temp + mid)
+				{
+					temp = arr[i];
+					cnt++;
+					if(cnt == k) break;
+				}
+			}
+			
+			if(cnt < k)
+				right = mid-1;
+			else
+			{
+				result = mid;
+				left = mid+1;
+			}
+		}
+		
+		bw.write(result+"\n");
+		bw.flush();
+	}
+}

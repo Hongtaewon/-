@@ -1,0 +1,44 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	static int n,m;
+	static Map<String, Integer> map = new HashMap<String, Integer>();
+	static String[] arr;
+	public static void main(String[] args) throws Exception {
+		
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		
+		arr = new String[n+1];
+		for(int i = 1;i<= n;i++)
+		{
+			String temp = br.readLine();
+			map.put(temp,i);
+			arr[i] = temp;
+		}
+		
+		for(int i = 0;i<m;i++)
+		{
+			String temp = br.readLine();
+			if(temp.charAt(0)-48 <10 ) //¼ýÀÚ
+			{
+				int num = Integer.parseInt(temp);
+				bw.write(arr[num]+"\n");
+			}
+			else
+			{
+				bw.write(map.get(temp)+"\n");
+			}
+		}
+		
+		
+		bw.flush();
+	}
+}

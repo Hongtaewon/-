@@ -1,0 +1,88 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	public static void main(String[] args) throws Exception {
+		
+		String s = br.readLine();
+		int len = s.length();
+		String temp = "";
+		Stack<String> st = new Stack<>();
+		for(int i = 0 ;i< len;i++)
+		{
+			char c = s.charAt(i);
+			if(c == ':')
+			{
+				if(i+1 < len && s.charAt(i+1) == ':')
+				{
+					if(temp.length() != 0)
+						st.add(temp);
+					st.add(":");
+					i++;
+				}
+				else
+				{
+					st.add(temp);
+				}
+				temp = "";
+			}
+			else
+			{
+				temp = temp + c;
+			}
+		}
+		if(temp.length() != 0)
+			st.add(temp);
+			
+		int remain = 8;
+		String result = "";
+		while(!st.isEmpty())
+		{
+			temp = st.pop();
+			if(temp == ":")
+			{
+				temp = "";
+				String zero = "0000";
+				int size = remain - (st.size()-1);
+				for(int i = 1; i<size;i++)
+				{
+					temp += zero;
+				}
+			}
+			else
+			{
+				temp = makefour(temp);
+				remain--;
+			}
+			
+			result = temp + result;
+		}
+		len = result.length();
+		for(int i = 0;i<len;i++)
+		{
+			bw.write(result.charAt(i));
+			if(i % 4 == 3 && (i != 0 && i != len-1)) bw.write(":");
+		}
+		bw.flush();
+	}
+	
+	static public String makefour(String str)
+	{
+		if(str.length() == 4)
+			return str;
+		else
+		{
+			while(str.length() != 4)
+			{
+				str = "0" + str;
+			}
+			
+			return str;
+		}
+		
+	}
+}

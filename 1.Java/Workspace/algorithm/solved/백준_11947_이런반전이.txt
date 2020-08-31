@@ -1,0 +1,62 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	
+	public static void main(String[] args) throws Exception {
+		
+		int t = Integer.parseInt(br.readLine());
+		
+		for(int i=0;i<t;i++)
+		{
+			int n = Integer.parseInt(br.readLine());
+			int cnt = zeroNum(n);
+			
+			long compare = pow(cnt);
+			
+			if(n >= compare/2)
+				bw.write(calc(compare/2,compare-1)+"\n");
+			else
+			{
+				bw.write(calc(n,compare-1)+"\n");
+			}
+		}
+		
+		bw.flush();
+	}
+	
+	public static int zeroNum(int n)
+	{
+		int cnt = 0;
+		while(n != 0)
+		{
+			n = n/10;
+			cnt++;
+		}
+		return cnt;
+	}
+	
+	public static long calc(long n,long compare)
+	{
+		long a = n;
+		long b = compare-n;
+		
+		long result = a*b;
+		
+		return result;
+	}
+	
+	public static long pow(int x)
+	{
+		long result = 1;
+		
+		for(int i = 0;i<x;i++)
+			result *= 10;
+		
+		return result;
+	}
+}

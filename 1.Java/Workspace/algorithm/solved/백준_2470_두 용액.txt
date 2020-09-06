@@ -1,0 +1,59 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	static int[] arr;
+	static int n,m;
+	
+	public static void main(String[] args) throws Exception {
+	
+		n = Integer.parseInt(br.readLine());
+		arr = new int[n];
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		for(int i = 0;i<n;i++)
+		{
+			arr[i] = Integer.parseInt(st.nextToken());
+		}
+		
+		Arrays.sort(arr);
+		int left = 0;
+		int right = arr.length-1;
+		int a = 0;
+		int b = 0;
+		
+		int min = Integer.MAX_VALUE;
+		
+		while(left < right)
+		{
+			if(arr[left] + arr[right] == 0) 
+			{
+				a = arr[left];
+				b = arr[right];
+				break;
+			}
+			else
+			{
+				if(Math.abs(arr[left] + arr[right]) < Math.abs(min))
+				{
+					a = arr[left];
+					b = arr[right];
+					min = arr[left] + arr[right];
+				}
+				
+				if(arr[left] + arr[right] > 0)
+					right--;
+				else
+					left++;
+					
+			}
+		}
+
+		bw.write(a+" "+b+"\n");
+		
+		bw.flush();
+	}
+}

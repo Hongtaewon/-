@@ -1,0 +1,52 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	static int[] arr;
+	static int[] depth;
+	static int n,m;
+	
+	public static void main(String[] args) throws Exception {
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		n = Integer.valueOf(st.nextToken());
+		m = Integer.valueOf(st.nextToken());
+		arr = new int[n];
+		depth = new int[n];
+		st = new StringTokenizer(br.readLine());
+		for(int i = 0; i<n;i++)
+			arr[i] = Integer.valueOf(st.nextToken());
+		Arrays.sort(arr);
+		perm(0,m,new boolean[n],0);
+		
+		bw.flush();
+	}
+	
+	public static void perm(int cnt,int num,boolean[] visited,int start) throws Exception
+	{
+		if(cnt == num)
+		{
+			for(int i = 0;i<m;i++)
+			{
+				bw.write(depth[i]+" ");
+			}
+			bw.write("\n");	
+			return;
+		}
+		
+		for(int i = start;i<n;i++)
+		{
+			if(visited[i] == false)
+			{
+				visited[i] = true;
+				depth[cnt] = arr[i];
+				perm(cnt+1,num,visited,i);
+				visited[i] = false;
+				
+			}
+			
+		}
+	}
+}
